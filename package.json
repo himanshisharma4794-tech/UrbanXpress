@@ -1,0 +1,22 @@
+{
+  "name": "urbanxpress-server",
+  "version": "1.0.0",
+  "description": "UrbanXpress Local Server for authentication and booking storage",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.22.1"
+  },
+  "keywords": [
+    "urbanxpress",
+    "transportation",
+    "booking",
+    "auth"
+  ],
+  "author": "UrbanXpress",
+  "license": "MIT"
+}

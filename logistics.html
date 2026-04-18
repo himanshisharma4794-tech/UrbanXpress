@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistics & Trucks | UrbanXpress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFB800;
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        /* Use Theme Tokens from shared-theme.css */
+        body { background-color: var(--bg-body) !important; color: var(--text-primary) !important; line-height: 1.6; }
+        header { background: var(--white); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-size: 24px; font-weight: 800; text-decoration: none; color: var(--dark); }
+        .logo span { color: var(--primary); }
+        .content { padding: 80px 10%; max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 48px; margin-bottom: 20px; }
+        .hero-img { width: 100%; height: 400px; background: url('https://images.unsplash.com/photo-1593950315186-76a92975b60c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover; border-radius: var(--radius); margin-bottom: 40px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .feature-card { background: var(--card-bg) !important; padding: 30px; border-radius: var(--radius); box-shadow: var(--card-shadow); border: 1px solid var(--border-color); transition: var(--transition); }
+        .feature-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .feature-card h3 { color: var(--text-primary); margin-bottom: 10px; }
+        .feature-card p { color: var(--text-secondary); }
+        .btn { display: inline-block; padding: 12px 30px; background: var(--primary); color: var(--dark); border-radius: 8px; font-weight: 600; text-decoration: none; margin-top: 20px; }
+    </style>
+
+    <link rel="stylesheet" href="shared-theme.css">
+    <script src="shared-theme.js"></script>
+</head>
+<body>
+    <header>
+        <a href="homepage.html" class="logo">Urban<span>Xpress</span></a>
+        <div>
+            <a href="homepage.html#form-send" class="btn" style="margin-top: 0;">Ship Now</a>
+        </div>
+    
+        <div id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer; font-size:18px; color:var(--text-main); margin-left:15px; display:inline-block;">
+            <i class="fas fa-moon"></i>
+        </div>
+</header>
+    <div class="content">
+        <h1>Reliable <span style="color:var(--primary);">Logistics</span> Solutions</h1>
+        <div class="hero-img"></div>
+        <p>Hire mini-trucks, tempos, and delivery bikes for fast intra-city goods transport. We handle everything from a single parcel to bulky commercial cargo with the same precision and care.</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>🚚 Fleet Variety</h3>
+                <p>3-wheelers, 7ft/8ft trucks, and commercial vans available on-demand.</p>
+                <a href="homepage.html#form-send" class="btn" style="background:#eee; margin-top:15px; font-size:13px;">View Vehicles</a>
+            </div>
+            <div class="feature-card">
+                <h3>🕒 Live Tracking</h3>
+                <p>Track your shipment's journey in real-time from pickup to drop-off.</p>
+                <a href="shipments.html" class="btn" style="background:#eee; margin-top:15px; font-size:13px;">Check Tracking</a>
+            </div>
+            <div class="feature-card">
+                <h3>📦 Last-Mile Delivery</h3>
+                <p>Optimized routes ensure your deliveries reach their destination faster than ever.</p>
+                <a href="homepage.html#form-send" class="btn" style="background:#eee; margin-top:15px; font-size:13px;">Send Cargo</a>
+            </div>
+        </div>
+    </div>
+    <footer style="text-align:center; padding:40px; background: var(--bg-secondary) !important; margin-top:80px; border-top: 1px solid var(--border-color) !important;">
+        <p>&copy; 2026 UrbanXpress. <a href="homepage.html" style="color: var(--primary); font-weight: 600;">Back to Home</a></p>
+    </footer>
+</body>
+</html>

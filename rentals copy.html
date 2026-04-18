@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Rentals | UrbanXpress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFB800;
+            --primary-hover: #E6A600;
+            --dark: #121212;
+            --dark-light: #2A2A2A;
+            --light: #F8F9FA;
+            --white: #FFFFFF;
+            --text-gray: #6C757D;
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            --border: #eeeeee;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+
+        header {
+            background: var(--white);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 24px; font-weight: 800; color: var(--dark); }
+        .logo span { color: var(--primary); }
+
+        .btn { padding: 12px 28px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: var(--transition); border: none; font-size: 15px; }
+        .btn-primary { background: var(--primary); color: var(--dark); }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,184,0,0.3); }
+
+        .hero-banner {
+            padding: 160px 10% 60px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover;
+            color: white;
+            text-align: center;
+        }
+        .hero-banner h1 { font-size: 48px; margin-bottom: 20px; }
+
+        /* Filter Section */
+        .filter-container {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            max-width: 1000px;
+            margin: -40px auto 60px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            z-index: 10;
+            position: relative;
+        }
+        .filter-group { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .filter-group label { font-size: 12px; font-weight: 700; color: var(--text-gray); text-transform: uppercase; }
+        .filter-group select, .filter-group input { padding: 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; background: #fafafa; }
+
+        /* Vehicle Grid */
+        .vehicle-grid { padding: 0 5% 100px; display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 40px; }
+        
+        .vehicle-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+        .vehicle-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-color: var(--primary); }
+
+        .vehicle-img { width: 100%; height: 260px; object-fit: contain; background: #f9f9f9; padding: 20px; }
+        
+        .vehicle-info { padding: 30px; flex: 1; display: flex; flex-direction: column; }
+        .vehicle-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .vehicle-price { font-size: 24px; font-weight: 800; color: var(--dark); }
+        .vehicle-price span { font-size: 14px; color: var(--text-gray); font-weight: 400; }
+        
+        .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .spec-item { font-size: 13px; color: var(--text-gray); display: flex; align-items: center; gap: 8px; }
+        .spec-item strong { color: var(--dark); }
+
+        .extra-charges { font-size: 12px; color: #d9534f; margin-bottom: 25px; background: #fff5f5; padding: 10px; border-radius: 8px; }
+
+        /* Terms Section */
+        .terms-section { padding: 80px 10%; background: var(--dark); color: white; }
+        .terms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-top: 40px; }
+        .term-item h4 { color: var(--primary); margin-bottom: 15px; }
+        .term-item p { font-size: 14px; color: #aaa; }
+
+        /* Modal Styles */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
+        .modal-card { background: white; width: 100%; max-width: 900px; border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh; color: var(--dark); }
+        .modal-header { display: flex; justify-content: space-between; padding: 20px 30px; border-bottom: 1px solid #eee; align-items: center; text-align: left; }
+        .modal-body { padding: 30px; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; text-align: left; }
+        .modal-footer { padding: 20px 30px; border-top: 1px solid #eee; text-align: right; }
+        .detail-img { width: 100%; height: 250px; background: #eee; border-radius: 12px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .detail-img img { width: 100%; height: 100%; object-fit: cover; }
+        .close-modal { cursor: pointer; font-size: 24px; color: var(--text-gray); }
+
+        @media (max-width: 800px) {
+            .modal-body { grid-template-columns: 1fr; }
+        }
+
+        footer { background: #000; color: #666; padding: 40px 5%; text-align: center; border-top: 1px solid #222; }
+    </style>
+
+    <link rel="stylesheet" href="shared-theme.css">
+    <script src="shared-theme.js"></script>
+</head>
+<body>
+    <header>
+        <a href="homepage.html" class="logo">Urban<span>Xpress</span></a>
+        <div>
+            <a href="loginpage.html" class="btn btn-primary">My Account</a>
+        </div>
+    
+        <div id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer; font-size:18px; color:var(--text-main); margin-left:15px; display:inline-block;">
+            <i class="fas fa-moon"></i>
+        </div>
+</header>
+
+    <div class="hero-banner">
+        <h1>Premium Fleet <span>Rentals</span></h1>
+        <p>Choose from our curated collection of bikes, sedans, and luxury vehicles.</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-container">
+        <div class="filter-group">
+            <label>Vehicle Type</label>
+            <select>
+                <option>All Vehicles</option>
+                <option>Scooters & Bikes</option>
+                <option>Standard Cars</option>
+                <option>Luxury Fleet</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Duration</label>
+            <select>
+                <option>Hourly</option>
+                <option>Daily (24h)</option>
+                <option>Weekly</option>
+                <option>Monthly</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Pickup Date</label>
+            <input type="date">
+        </div>
+        <div style="display: flex; align-items: flex-end;">
+            <button class="btn btn-primary" style="width: 100%;">Search Fleet</button>
+        </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="vehicle-grid">
+        <!-- Activa -->
+        <div class="vehicle-card">
+            <img src="images/activa.png" alt="Honda Activa" class="vehicle-img">
+            <div class="vehicle-info">
+                <div class="vehicle-header">
+                    <div>
+                        <h3>Honda Activa 6G</h3>
+                        <p style="font-size: 13px; color: var(--text-gray);">Urban Commuter • Petrol</p>
+                    </div>
+                    <div class="vehicle-price">₹499<span>/day</span></div>
+                </div>
+                <div class="specs">
+                    <div class="spec-item">📏 Dimensions: <strong>1833x697x1156 mm</strong></div>
+                    <div class="spec-item">⛽ Fuel: <strong>5.3 L Tank</strong></div>
+                    <div class="spec-item">⚙️ Engine: <strong>109.5 cc</strong></div>
+                    <div class="spec-item">🛑 Safety: <strong>Combi-Brake System</strong></div>
+                </div>
+                <div class="extra-charges">
+                    ⚠️ Extra: ₹50/hr late fee • ₹1,000 Security Deposit (Refundable)
+                </div>
+                <button class="btn btn-primary" style="margin-top: auto;" onclick="openDetails('scooter')">Rent This Scooter</button>
+            </div>
+        </div>
+
+        <!-- Standard Sedan -->
+        <div class="vehicle-card">
+            <img src="images/sedan.png" alt="Standard Sedan" class="vehicle-img">
+            <div class="vehicle-info">
+                <div class="vehicle-header">
+                    <div>
+                        <h3>Standard Executive Sedan</h3>
+                        <p style="font-size: 13px; color: var(--text-gray);">5-Seater • Automatic</p>
+                    </div>
+                    <div class="vehicle-price">₹2,499<span>/day</span></div>
+                </div>
+                <div class="specs">
+                    <div class="spec-item">📏 Dimensions: <strong>4440x1729x1475 mm</strong></div>
+                    <div class="spec-item">⛽ Fuel: <strong>40 L Tank</strong></div>
+                    <div class="spec-item">⚙️ Engine: <strong>1.5 L I-VTEC</strong></div>
+                    <div class="spec-item">🧳 Luggage: <strong>510 L Boot Space</strong></div>
+                </div>
+                <div class="extra-charges">
+                    ⚠️ Extra: ₹10/km over 250km • Full-to-Full fuel policy
+                </div>
+                <button class="btn btn-primary" style="margin-top: auto;" onclick="openDetails('sedan')">Rent This Car</button>
+            </div>
+        </div>
+
+        <!-- Luxury Sedan -->
+        <div class="vehicle-card">
+            <img src="images/luxury_sedan.png" alt="Luxury Sedan" class="vehicle-img">
+            <div class="vehicle-info">
+                <div class="vehicle-header">
+                    <div>
+                        <h3>Premium Luxury Suite</h3>
+                        <p style="font-size: 13px; color: var(--primary); font-weight: 700;">Luxury Class • V8 Engine</p>
+                    </div>
+                    <div class="vehicle-price">₹12,999<span>/day</span></div>
+                </div>
+                <div class="specs">
+                    <div class="spec-item">📏 Dimensions: <strong>5289x1921x1503 mm</strong></div>
+                    <div class="spec-item">⛽ Fuel: <strong>80 L Tank</strong></div>
+                    <div class="spec-item">⚙️ Engine: <strong>4.0 L Twin-Turbo</strong></div>
+                    <div class="spec-item">🌟 Perk: <strong>Chauffeur Optional</strong></div>
+                </div>
+                <div class="extra-charges">
+                    ⚠️ Extra: Cleaning fee ₹1,500 • Specialized insurance included
+                </div>
+                <button class="btn btn-primary" style="margin-top: auto;" onclick="openDetails('luxury')">Reserve Luxury</button>
+            </div>
+        </div>
+
+        <!-- Vintage Scooter -->
+        <div class="vehicle-card">
+            <img src="images/vintage_bike.png" alt="Vintage Scooter" class="vehicle-img">
+            <div class="vehicle-info">
+                <div class="vehicle-header">
+                    <div>
+                        <h3>Retro Electric Breeze</h3>
+                        <p style="font-size: 13px; color: var(--text-gray);">Eco-Friendly • SmartLink</p>
+                    </div>
+                    <div class="vehicle-price">₹799<span>/day</span></div>
+                </div>
+                <div class="specs">
+                    <div class="spec-item">📏 Dimensions: <strong>1760x700x1100 mm</strong></div>
+                    <div class="spec-item">🔋 Battery: <strong>80km Range</strong></div>
+                    <div class="spec-item">⚙️ Motor: <strong>3.3 kW Mid-drive</strong></div>
+                    <div class="spec-item">📱 Tech: <strong>Bluetooth App Entry</strong></div>
+                </div>
+                <div class="extra-charges">
+                    ⚠️ Extra: Swappable battery service ₹200/swap
+                </div>
+                <button class="btn btn-primary" style="margin-top: auto;" onclick="openDetails('vintage')">Quick Rent</button>
+            </div>
+        </div>
+
+        <!-- Standard SUV -->
+        <div class="vehicle-card">
+            <img src="images/suv.png" alt="Standard SUV" class="vehicle-img">
+            <div class="vehicle-info">
+                <div class="vehicle-header">
+                    <div>
+                        <h3>Urban Explorer SUV</h3>
+                        <p style="font-size: 13px; color: var(--text-gray);">7-Seater • 4x4 Ready</p>
+                    </div>
+                    <div class="vehicle-price">₹4,499<span>/day</span></div>
+                </div>
+                <div class="specs">
+                    <div class="spec-item">📏 Dimensions: <strong>4600x1855x1685 mm</strong></div>
+                    <div class="spec-item">⛽ Fuel: <strong>60 L Tank</strong></div>
+                    <div class="spec-item">⚙️ Engine: <strong>2.0 L Turbo-Diesel</strong></div>
+                    <div class="spec-item">🏔️ Terrain: <strong>All-Wheel Drive</strong></div>
+                </div>
+                <div class="extra-charges">
+                    ⚠️ Extra: ₹800 cleaning fee for off-road usage
+                </div>
+                <button class="btn btn-primary" style="margin-top: auto;" onclick="openDetails('suv')">Explore SUV</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Vehicle Modal -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2 id="modal-title">Vehicle Details</h2>
+                <span class="close-modal" onclick="closeModal()">✕</span>
+            </div>
+            <div class="modal-body">
+                <div class="detail-gallery">
+                    <div class="detail-img">
+                        <img id="modal-img-ext" src="" alt="Exterior View">
+                        <p style="text-align:center; font-size:12px; margin-top:5px; color:var(--text-gray);">Full Look (Exterior)</p>
+                    </div>
+                    <div class="detail-img">
+                        <img id="modal-img-int" src="" alt="Interior View">
+                        <p style="text-align:center; font-size:12px; margin-top:5px; color:var(--text-gray);">Cockpit & Features</p>
+                    </div>
+                </div>
+                <div class="detail-info" style="display:flex; flex-direction:column; gap:20px;">
+                    <div>
+                        <h3 style="margin-bottom:15px; color:var(--primary);">Configuration & Specs</h3>
+                        <div id="modal-specs" style="line-height:2; font-size:14px;"></div>
+                    </div>
+                    
+                    <div style="background:#f9f9f9; padding:20px; border-radius:12px; border:1px solid #eee;">
+                        <h3 style="margin-bottom:15px; font-size:16px;">📅 Select Your Schedule</h3>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+                            <div class="filter-group">
+                                <label style="font-size:11px; font-weight:700; color:var(--text-gray);">PICKUP DATE</label>
+                                <input type="date" id="rentDate" onchange="calculateTotal()" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;">
+                            </div>
+                            <div class="filter-group">
+                                <label style="font-size:11px; font-weight:700; color:var(--text-gray);">PICKUP TIME</label>
+                                <input type="time" id="rentTime" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;">
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label style="font-size:11px; font-weight:700; color:var(--text-gray);">DURATION (UNIT: <span id="unit-label">DAY</span>)</label>
+                            <input type="number" id="rentDuration" value="1" min="1" onchange="calculateTotal()" style="width:100%; padding:8px; border-radius:6px; border:1px solid #ddd;">
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 style="margin-bottom:10px; font-size:16px;">Specific Terms</h3>
+                        <ul id="modal-cond" style="margin-left:20px; color:var(--text-gray); font-size:13px;">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="display:flex; align-items:center; justify-content:space-between; padding:20px 30px;">
+                <div style="text-align:left;">
+                    <p style="font-size:12px; color:var(--text-gray); margin-bottom:0;">Estimated Total:</p>
+                    <span id="modal-total" style="font-size:28px; font-weight:800; color:var(--primary);">₹0</span>
+                </div>
+                <button class="btn btn-primary" onclick="proceedToPay()">Confirm & Rent This</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions -->
+    <section class="terms-section">
+        <h2 style="font-size: 32px; text-align: center;">Rental <span class="highlight">Terms & Conditions</span></h2>
+        <div class="terms-grid">
+            <div class="term-item">
+                <h4>1. Eligibility</h4>
+                <p>All renters must be at least 21 years of age for standard vehicles and 25 years for luxury fleet. A valid International or State Driving License is mandatory.</p>
+            </div>
+            <div class="term-item">
+                <h4>2. Insurance</h4>
+                <p>Standard rentals include Third-Party Liability. Collision Damage Waiver (CDW) is available as an optional add-on for ₹500/day for complete peace of mind.</p>
+            </div>
+            <div class="term-item">
+                <h4>3. Usage Policy</h4>
+                <p>Vehicles are restricted to city limits unless 'Outstation' package is selected. Excessive speeding or reckless driving will lead to immediate remote immobilization.</p>
+            </div>
+            <div class="term-item">
+                <h4>4. Maintenance</h4>
+                <p>We provide 24/7 Roadside Assistance. Renters are responsible for maintaining oil and tire pressure levels for rentals exceeding 15 days.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 UrbanXpress Rentals. Delivering Precision and Care. | <a href="homepage.html">Back to Home</a>
+    </footer>
+
+    <!-- Simple JS for Details -->
+    <script>
+        let currentVehicleBasePrice = 0;
+        let currentVehicleKey = '';
+
+        const vehicleData = {
+            scooter: {
+                title: 'Honda Activa 6G',
+                price: 499,
+                unit: 'Day',
+                ext: 'images/activa.png',
+                int: 'https://images.unsplash.com/photo-1558981403-c5f97cb92751?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                specs: '📏 <strong>Dimensions:</strong> 1833x697x1156 mm<br>⛽ <strong>Fuel:</strong> 5.3 L Tank<br>⚙️ <strong>Engine:</strong> 109.5 cc<br>🛑 <strong>Safety:</strong> Combi-Brake System',
+                cond: ['Refundable Deposit: ₹1,000', 'Helmets provided upon request', 'Late fee: ₹50/hr after 1hr grace', 'Valid L-DL required']
+            },
+            sedan: {
+                title: 'Standard Executive Sedan',
+                price: 2499,
+                unit: 'Day',
+                ext: 'images/sedan.png',
+                int: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                specs: '📏 <strong>Dimensions:</strong> 4440x1729x1475 mm<br>⛽ <strong>Fuel:</strong> 40 L Tank<br>⚙️ <strong>Engine:</strong> 1.5 L I-VTEC<br>🧳 <strong>Luggage:</strong> 510 L Boot Space',
+                cond: ['Full-to-Full fuel policy', '250km limit/day, then ₹10/km', 'Clean back seat policy', 'Roadside assistance included']
+            },
+            luxury: {
+                title: 'Premium Luxury Suite (V8)',
+                price: 12999,
+                unit: 'Day',
+                ext: 'images/luxury_sedan.png',
+                int: 'https://images.unsplash.com/photo-1605515298946-d062f2e9da53?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                specs: '📏 <strong>Dimensions:</strong> 5289x1921x1503 mm<br>⛽ <strong>Fuel:</strong> 80 L Tank<br>⚙️ <strong>Engine:</strong> 4.0 L Twin-Turbo<br>🌟 <strong>Perk:</strong> Chauffeur Optional',
+                cond: ['Cleaning fee: ₹1,500 mandatory', 'Luxury tax included in base price', 'Inter-state permit required separately', 'Concierge support 24x7']
+            },
+            vintage: {
+                title: 'Retro Electric Breeze',
+                price: 799,
+                unit: 'Day',
+                ext: 'images/vintage_bike.png',
+                int: 'https://images.unsplash.com/photo-1444491741275-3747c53c99b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                specs: '📏 <strong>Dimensions:</strong> 1760x700x1100 mm<br>🔋 <strong>Battery:</strong> 80km Range<br>⚙️ <strong>Motor:</strong> 3.3 kW Mid-drive<br>📱 <strong>Tech:</strong> Bluetooth App Entry',
+                cond: ['Battery swap hubs available', 'Zero emission vehicle bonus', 'Mobile app unlock mandatory', 'Waitlist may apply during peak hours']
+            },
+            suv: {
+                title: 'Urban Explorer SUV (4x4)',
+                price: 4499,
+                unit: 'Day',
+                ext: 'images/suv.png',
+                int: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                specs: '📏 <strong>Dimensions:</strong> 4600x1855x1685 mm<br>⛽ <strong>Fuel:</strong> 60 L Tank<br>⚙️ <strong>Engine:</strong> 2.0 L Turbo-Diesel<br>🏔️ <strong>Terrain:</strong> All-Wheel Drive',
+                cond: ['Off-road cleaning fee: ₹800', 'Spare wheel and tools included', 'Snow chains available on request', 'Maximum capacity: 7 adults']
+            }
+        };
+
+        function openDetails(key) {
+            const data = vehicleData[key];
+            const modal = document.getElementById('detailModal');
+            
+            currentVehicleKey = key;
+            currentVehicleBasePrice = data.price;
+            
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-img-ext').src = data.ext;
+            document.getElementById('modal-img-int').src = data.int;
+            document.getElementById('modal-specs').innerHTML = data.specs;
+            document.getElementById('unit-label').innerText = data.unit.toUpperCase();
+            
+            const condList = document.getElementById('modal-cond');
+            condList.innerHTML = '';
+            data.cond.forEach(c => {
+                const li = document.createElement('li');
+                li.innerText = c;
+                condList.appendChild(li);
+            });
+            
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('rentDate').value = today;
+            document.getElementById('rentDuration').value = 1;
+            
+            calculateTotal();
+            modal.style.display = 'flex';
+        }
+
+        function calculateTotal() {
+            const duration = parseInt(document.getElementById('rentDuration').value) || 1;
+            const total = currentVehicleBasePrice * duration;
+            document.getElementById('modal-total').innerText = '₹' + total.toLocaleString();
+        }
+
+        function proceedToPay() {
+            const totalStr = document.getElementById('modal-total').innerText;
+            const date = document.getElementById('rentDate').value;
+            const time = document.getElementById('rentTime').value;
+            
+            if(!date || !time) {
+                alert("Please select pick up date and time");
+                return;
+            }
+            
+            window.location.href = 'pay.html?amount=' + encodeURIComponent(totalStr);
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

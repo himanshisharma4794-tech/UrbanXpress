@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner With Us | UrbanXpress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFB800;
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        /* Use Theme Tokens from shared-theme.css */
+        body { background-color: var(--bg-body) !important; color: var(--text-primary) !important; line-height: 1.6; }
+       header { background: var(--white); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-size: 24px; font-weight: 800; text-decoration: none; color: var(--dark); }
+        .logo span { color: var(--primary); }
+        .content { padding: 80px 10%; max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 48px; margin-bottom: 20px; }
+        .partner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; margin-top: 60px; }
+        .partner-card { background: var(--card-bg) !important; padding: 40px; border-radius: var(--radius); box-shadow: var(--card-shadow); border: 1px solid var(--border-color); transition: var(--transition); }
+        .partner-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .partner-card p { color: var(--text-secondary); }
+        h2.section-title { font-size: 24px; margin-bottom: 15px; color: var(--primary); }
+        .btn { display: inline-block; padding: 12px 30px; background: var(--primary); color: var(--dark); border-radius: 8px; font-weight: 600; text-decoration: none; margin-top: 20px; }
+    </style>
+
+    <link rel="stylesheet" href="shared-theme.css">
+    <script src="shared-theme.js"></script>
+</head>
+<body>
+    <header>
+        <a href="homepage.html" class="logo">Urban<span>Xpress</span></a>
+        <a href="loginpage.html?action=signup" class="btn" style="margin-top: 0;">Register Now</a>
+    
+        <div id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer; font-size:18px; color:var(--text-main); margin-left:15px; display:inline-block;">
+            <i class="fas fa-moon"></i>
+        </div>
+</header>
+    <div class="content">
+        <h1>Grow <span style="color:var(--primary);">Together</span></h1>
+        <p>UrbanXpress is not just a platform; it's a partnership. We connect vehicle owners, delivery experts, and packing professionals with a massive urban customer base.</p>
+        
+        <div class="partner-grid">
+            <div class="partner-card">
+                <h2 class="section-title">Drive with Us</h2>
+                <p>Earn more with our low commission rates and flexible working hours. Join as a bike taxi or can driver.</p>
+                <a href="loginpage.html?action=signup" class="btn">Apply to Drive</a>
+            </div>
+            <div class="partner-card">
+                <h2 class="section-title">Fleet Owners</h2>
+                <p>Register your mini-trucks or cars and manage multiple drivers with our fleet management dashboard.</p>
+                <a href="loginpage.html?action=signup" class="btn">Join Fleet Hub</a>
+            </div>
+            <div class="partner-card">
+                <h2 class="section-title">Packer Partners</h2>
+                <p>Are you a professional relocation agency? Partner with us to get consistent high-value move requests.</p>
+                <a href="loginpage.html?action=signup" class="btn">Become Partner</a>
+            </div>
+        </div>
+    </div>
+    <footer style="text-align:center; padding:40px; background: var(--bg-secondary) !important; margin-top:80px; border-top: 1px solid var(--border-color) !important;">
+        <p>&copy; 2026 UrbanXpress. <a href="homepage.html" style="color: var(--primary); font-weight: 600;">Back to Home</a></p>
+    </footer>
+</body>
+</html>

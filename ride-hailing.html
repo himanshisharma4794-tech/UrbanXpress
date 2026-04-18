@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride Hailing | UrbanXpress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFB800;
+            --dark: #121212;
+            --light: #F8F9FA;
+            --white: #FFFFFF;
+            --text-gray: #6C757D;
+            --radius: 12px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+        header { background: var(--white); padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-size: 24px; font-weight: 800; text-decoration: none; color: var(--dark); }
+        .logo span { color: var(--primary); }
+        .content { padding: 80px 10%; max-width: 1200px; margin: 0 auto; }
+        h1 { font-size: 48px; margin-bottom: 20px; }
+        .hero-img { width: 100%; height: 400px; background: url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover; border-radius: var(--radius); margin-bottom: 40px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .feature-card { background: white; padding: 30px; border-radius: var(--radius); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .btn { display: inline-block; padding: 12px 30px; background: var(--primary); color: var(--dark); border-radius: 8px; font-weight: 600; text-decoration: none; margin-top: 20px; }
+    </style>
+
+    <link rel="stylesheet" href="shared-theme.css">
+    <script src="shared-theme.js"></script>
+</head>
+<body>
+    <header>
+        <a href="homepage.html" class="logo">Urban<span>Xpress</span></a>
+        <div>
+            <a href="about.html" style="text-decoration:none; color:var(--dark); margin-right:20px;">About</a>
+            <a href="homepage.html#form-ride" class="btn" style="margin-top: 0;">Book a Ride</a>
+        </div>
+    
+        <div id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer; font-size:18px; color:var(--text-main); margin-left:15px; display:inline-block;">
+            <i class="fas fa-moon"></i>
+        </div>
+</header>
+    <div class="content">
+        <h1>Move Around Your <span style="color:var(--primary);">City</span> with Ease</h1>
+        <div class="hero-img"></div>
+        <p>RideXpress provides safe, reliable, and affordable transportation at your fingertips. From bike taxis for quick solo trips to premium sedans for executive comfort, we've got you covered.</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>🚕 5-Minute Pickup</h3>
+                <p>Our intelligent routing ensures a driver is always around the corner when you need them.</p>
+                <a href="homepage.html#form-ride" class="btn" style="background:#eee; margin-top:15px; font-size:13px;">Find Near Me</a>
+            </div>
+            <div class="feature-card">
+                <h3>🛡️ Safety First</h3>
+                <p>Every ride is tracked in real-time. Share your trip status with loved ones for peace of mind.</p>
+                <a href="about.html" class="btn" style="background:#eee; margin-top:15px; font-size:13px;">Safety Features</a>
+            </div>
+            <div class="feature-card">
+                <h3>💰 Transparent Pricing</h3>
+                <p>Know exactly what you'll pay before you book. No surprises, no hidden fees.</p>
+                <a href="homepage.html#form-ride" class="btn" style="background:#eee; margin-top:15px; font-size:13px;">Get Estimate</a>
+            </div>
+        </div>
+    </div>
+    <footer style="text-align:center; padding:40px; background:white; margin-top:80px; border-top:1px solid #eee;">
+        <p>&copy; 2026 UrbanXpress. <a href="homepage.html">Back to Home</a></p>
+    </footer>
+</body>
+</html>

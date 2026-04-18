@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Rides | UrbanXpress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFB800;
+            --primary-hover: #E6A600;
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Use Theme Tokens from shared-theme.css */
+        body { background-color: var(--bg-body) !important; color: var(--text-primary) !important; line-height: 1.6; display: flex; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+
+        .sidebar { width: 260px; background: var(--bg-secondary) !important; border-right: 1px solid var(--border-color) !important; padding: 30px; display: flex; flex-direction: column; flex-shrink: 0; position: fixed; height: 100vh; }
+        .sidebar-logo { font-size: 22px; font-weight: 800; margin-bottom: 50px; cursor: pointer; color: var(--text-primary) !important; }
+        .sidebar-logo span { color: var(--primary); }
+        .sidebar-nav { flex: 1; }
+        .nav-item { padding: 12px 0; font-weight: 500; color: #ccc; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+        .nav-item:hover, .nav-item.active { color: var(--primary); }
+        .logout { margin-top: auto; color: #ff4d4d; cursor: pointer; }
+
+        .main-content { flex: 1; padding: 40px 5%; margin-left: 260px; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .welcome h1 { font-size: 28px; }
+
+        .rides-list { background: var(--card-bg); padding: 30px; border-radius: var(--radius); box-shadow: var(--card-shadow); border: 1px solid var(--border-color); }
+        .ride-item { padding: 20px 0; border-bottom: 1px solid var(--border-color); display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; align-items: center; }
+        .ride-item:last-child { border-bottom: none; }
+        
+        .status { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; width: fit-content; text-transform: uppercase; }
+        .completed { background: #DCFCE7; color: #166534; }
+        .cancelled { background: #FEE2E2; color: #991B1B; }
+        
+        [data-theme="dark"] .completed { background: rgba(22, 165, 52, 0.15); color: #4ADE80; border: 1px solid rgba(22, 165, 52, 0.3); }
+        [data-theme="dark"] .cancelled { background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; }
+        }
+    </style>
+
+    <link rel="stylesheet" href="shared-theme.css">
+    <script src="shared-theme.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-logo" onclick="window.location.href='homepage.html'">Urban<span>Xpress</span></div>
+        <div class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">🏠 Dashboard</a>
+            <a href="rides.html" class="nav-item active">🚕 My Rides</a>
+            <a href="shipments.html" class="nav-item">📦 Shipments</a>
+            <a href="recent-bookings.html" class="nav-item">📋 Recent Bookings</a>
+            <a href="account.html" class="nav-item">👤 My Account</a>
+            <a href="packers-movers.html" class="nav-item">🏠 House Moves</a>
+            <a href="payments.html" class="nav-item">💳 Payments</a>
+            <a href="services.html" class="nav-item">🛒 Book Service</a>
+            <a href="account.html" class="nav-item">⚙️ Settings</a>
+        
+            <div id="theme-toggle" onclick="toggleTheme()" class="theme-toggle-btn">
+                <span>🌓 Toggle Theme</span>
+            </div>
+        </div>
+        <div class="logout" onclick="logout()">🚪 Log Out</div>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="welcome">
+                <h1>My Rides</h1>
+                <p>History of your travels with RideXpress.</p>
+            </div>
+            <button class="btn" onclick="window.location.href='homepage.html'" style="background:var(--primary); padding:10px 20px; border-radius:8px; font-weight:600; border:none; cursor:pointer;">Book New Ride</button>
+        </header>
+
+        <div id="ride-container" class="rides-list">
+            <!-- Data will be injected here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const userEmail = localStorage.getItem('userEmail');
+            const history = JSON.parse(localStorage.getItem('userHistory') || '[]');
+            const rideHistory = history.filter(h => h.type === 'Ride' || h.type === 'Rental' || h.serviceType === 'ride' || h.serviceType === 'rental');
+
+            // Merge with new storage system
+            if (userEmail) {
+                const newBookings = JSON.parse(localStorage.getItem(`bookings_${userEmail}`) || '[]');
+                newBookings.forEach(b => {
+                    if (b.serviceType === 'ride' || b.serviceType === 'rental') {
+                        // Check if already in history by ID
+                        if (!rideHistory.find(h => h.id === b.id || b.id.includes(h.id))) {
+                            rideHistory.push({
+                                pickup: b.from,
+                                drop: b.to,
+                                date: b.date,
+                                id: b.id.slice(-6).toUpperCase(),
+                                amount: b.amount ? `₹${b.amount}` : "N/A",
+                                status: b.status === 'completed' ? 'Success' : b.status
+                            });
+                        }
+                    }
+                });
+            }
+
+            const container = document.getElementById('ride-container');
+
+            if (rideHistory.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:50px;">
+                        <div style="font-size:50px; margin-bottom:15px;">🚕</div>
+                        <h3>No trips found</h3>
+                        <p style="color:var(--text-gray); margin-bottom:20px;">You haven't taken any rides with UrbanXpress yet.</p>
+                        <a href="homepage.html" class="btn" style="background:var(--primary); padding:10px 25px; border-radius:8px; display:inline-block; font-weight:600; text-decoration:none; color:var(--dark);">Book Your First Ride</a>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = rideHistory.map(ride => `
+                    <div class="ride-item">
+                        <div>
+                            <p style="font-weight:600;">${ride.pickup} → ${ride.drop}</p>
+                            <p style="font-size:12px; color:var(--text-gray);">${ride.date} | ID: #${ride.id}</p>
+                        </div>
+                        <p style="font-weight:700;">${ride.amount}</p>
+                        <span class="status ${ride.status === 'Success' ? 'completed' : 'cancelled'}">
+                            ${ride.status}
+                        </span>
+                        <p style="font-size:13px; color:var(--primary); font-weight:600; cursor:pointer;" onclick="alert('Generating receipt...')">View Receipt</p>
+                    </div>
+                `).join('');
+            }
+        });
+        function logout() {
+            localStorage.removeItem('userLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userId');
+            window.location.href = 'homepage.html';
+        }
+    </script>
+</body>
+</html>

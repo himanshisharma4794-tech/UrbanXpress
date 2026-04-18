@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | UrbanXpress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFB800;
+            --primary-hover: #E6A600;
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Use Theme Tokens from shared-theme.css */
+        body { background-color: var(--bg-body) !important; color: var(--text-primary) !important; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+
+        header {
+            background: var(--header-bg) !important;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(15px);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-primary) !important;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .content-section {
+            padding: 150px 10% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: var(--primary);
+        }
+
+        p.main-desc {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Timeline Section */
+        .timeline {
+            margin: 80px 0;
+            border-left: 2px solid var(--primary);
+            padding-left: 30px;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-date {
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -41px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        h2.section-title {
+            font-size: 36px;
+            margin-top: 100px;
+            margin-bottom: 40px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-card {
+            background: var(--card-bg) !important;
+            padding: 40px 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .team-card h3, .team-card h4 { color: var(--text-primary) !important; margin-bottom: 10px; }
+        .team-card p { color: var(--text-secondary); }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .team-img {
+            width: 100px;
+            height: 100px;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Value Section */
+        .values-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .value-tag {
+            background: var(--dark);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        footer {
+            background: var(--dark-light);
+            color: var(--white);
+            padding: 60px 5%;
+            text-align: center;
+            margin-top: 100px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="shared-theme.css">
+    <script src="shared-theme.js"></script>
+</head>
+
+<body>
+    <header>
+        <a href="homepage.html" class="logo">Urban<span>Xpress</span></a>
+        <div>
+            <a href="homepage.html" class="btn btn-primary">Back to Home</a>
+        </div>
+    
+        <div id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer; font-size:18px; color:var(--text-main); margin-left:15px; display:inline-block;">
+            <i class="fas fa-moon"></i>
+        </div>
+</header>
+
+    <section class="content-section">
+        <h1>Our <span class="highlight">Story</span></h1>
+        <p class="main-desc">UrbanXpress was founded in 2026 with a simple mission: to make city movement seamless.
+            We've evolved from a simple ride-hailing web into a comprehensive logistics and transportation ecosystem.
+        </p>
+
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-img">🎯</div>
+                <h3>Our Mission</h3>
+                <p>To provide reliable, affordable, and sustainable transportation solutions for every urban need.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-img">🚀</div>
+                <h3>Our Vision</h3>
+                <p>To be the world's most trusted logistics partner, moving anything from a small parcel to an entire
+                    home.</p>
+            </div>
+            <div class="team-card">
+                <div class="team-img">🌍</div>
+                <h3>Our Impact</h3>
+                <p>Connecting millions of users with verified partners while reducing urban congestion.</p>
+            </div>
+        </div>
+
+        <h2 class="section-title">Our <span class="highlight">Expertise</span></h2>
+        <div
+            style="max-width: 900px; margin: 0 auto; line-height: 1.8; font-size: 18px; color: var(--text-primary); text-align: left; background: var(--card-bg); padding: 40px; border-radius: var(--radius); border-left: 5px solid var(--primary); box-shadow: var(--card-shadow); border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+            <p>We specialize in providing <strong>seamless logistics solutions</strong> tailored to your unique needs.
+                With an unwavering commitment to reliability and efficiency, we ensure that your goods are delivered on
+                time, every time.</p>
+            <p style="margin-top: 20px; color: var(--text-secondary);">Our expert team navigates the complexities of modern supply chain management,
+                allowing you to focus on what you do best. From precision-guided local deliveries to comprehensive
+                global shipping, we connect you to the world with unparalleled care. <strong>Trust us to be your
+                    dedicated partner in logistics.</strong></p>
+        </div>
+
+        <h2 class="section-title">Our <span class="highlight">Core Values</span></h2>
+        <div class="values-list">
+            <div class="value-tag">Customer Obsession</div>
+            <div class="value-tag">Trust & Safety</div>
+            <div class="value-tag">Radical Transparency</div>
+            <div class="value-tag">Innovation at Speed</div>
+            <div class="value-tag">Empowering Partners</div>
+        </div>
+
+        <h2 class="section-title">Our <span class="highlight">Leadership</span></h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <div style="font-size: 50px; margin-bottom: 20px;">🧔</div>
+                <h4>Hemant Sharma</h4>
+                <p style="font-size: 14px; font-weight: 700; color:var(--primary);">Founder & CEO</p>
+                <p style="margin-top: 10px; font-size: 13px;">A logistics enthusiast with over 15 years in supply chain
+                    management.</p>
+            </div>
+            <div class="team-card">
+                <div style="font-size: 50px; margin-bottom: 20px;">👩</div>
+                <h4>Himanshi Sharma</h4>
+                <p style="font-size: 14px; font-weight: 700; color:var(--primary);">Chief Technology Officer</p>
+                <p style="margin-top: 10px; font-size: 13px;">Former lead engineer at global tech giants, specializing
+                    in AI and scale.</p>
+            </div>
+            <div class="team-card">
+                <div style="font-size: 50px; margin-bottom: 20px;">👱‍♀️</div>
+                <h4>Janvi Tanwer</h4>
+                <p style="font-size: 14px; font-weight: 700; color:var(--primary);">Director of Global Operations</p>
+                <p style="margin-top: 10px; font-size: 13px;">Scaling UrbanXpress to international markets with a focus
+                    on partner success.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 UrbanXpress Inc. All rights reserved.</p>
+        <p style="font-size: 12px; color: #888; margin-top: 10px;">Contact us: sharma.hemant0207@urbanxpress.com | +91
+            8107081097 MOV-FAST</p>
+    </footer>
+</body>
+
+</html>

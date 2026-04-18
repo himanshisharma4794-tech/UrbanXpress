@@ -1,0 +1,156 @@
+/* shared-theme.css - UrbanXpress Premium UI Framework */
+:root {
+    --primary: #FFB800;
+    --primary-hover: #E6A600;
+    --dark: #0F172A; /* Deep Slate */
+    --white: #FFFFFF;
+    --light-bg: #F8FAFC;
+    --border-light: #E2E8F0;
+    
+    /* Default Light Theme Tokens */
+    --bg-body: var(--white);
+    --bg-secondary: var(--light-bg);
+    --text-primary: #1E293B;
+    --text-secondary: #64748B;
+    --card-bg: var(--white);
+    --card-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    --border-color: var(--border-light);
+    --nav-item: #334155;
+    --header-bg: rgba(255, 255, 255, 0.9);
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+[data-theme="dark"] {
+    --bg-body: #0F172A;
+    --bg-secondary: #020617;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --card-bg: #1E293B;
+    --card-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    --border-color: #334155;
+    --nav-item: #E2E8F0;
+    --header-bg: rgba(15, 23, 42, 0.9);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background-color: var(--bg-body) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Poppins', sans-serif !important;
+    transition: var(--transition);
+    line-height: 1.6;
+}
+
+/* --- Premium Transitions --- */
+* { transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; }
+
+/* --- Global UX: Professional Typography --- */
+h1, h2, h3, h4, h5, h6 { color: var(--text-primary) !important; font-weight: 700 !important; }
+p, span, li, label { color: var(--text-secondary); transition: color 0.3s ease; }
+
+/* --- Global UX: Standardized Header --- */
+header, .nav-header { 
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    background: var(--header-bg) !important; 
+    border-bottom: 1px solid var(--border-color) !important;
+    backdrop-filter: blur(15px);
+    z-index: 1000;
+}
+
+/* --- Global UX: High-Fidelity Buttons --- */
+.btn {
+    padding: 12px 28px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.btn-primary { background: var(--primary) !important; color: var(--dark) !important; }
+.btn-primary:hover { background: var(--primary-hover) !important; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 184, 0, 0.2); }
+.btn-outline { 
+    background: transparent !important; 
+    border: 2px solid var(--primary) !important; 
+    color: var(--text-primary) !important; 
+    font-weight: 700;
+}
+.btn-outline:hover { 
+    background: var(--primary) !important; 
+    color: var(--dark) !important; 
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 184, 0, 0.2);
+}
+
+/* --- Global UX: Premium Cards --- */
+.card, .stat-card, .ride-item, .widget, .booking-widget {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--card-shadow) !important;
+    transition: var(--transition);
+    overflow: hidden;
+}
+.card:hover, .stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important; }
+
+/* --- Global UX: Status Badges --- */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.status-success { background: #DCFCE7; color: #166534; }
+.status-pending { background: #FEF3C7; color: #92400E; }
+.status-danger { background: #FEE2E2; color: #991B1B; }
+
+[data-theme="dark"] .status-success { background: rgba(22, 165, 52, 0.15); color: #4ADE80; border: 1px solid rgba(22, 165, 52, 0.3); }
+[data-theme="dark"] .status-pending { background: rgba(245, 158, 11, 0.15); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.3); }
+[data-theme="dark"] .status-danger { background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+/* --- Global UX: Sidebar Optimization --- */
+.sidebar {
+    background: var(--bg-secondary) !important;
+    border-right: 1px solid var(--border-color) !important;
+}
+.nav-item { border-radius: var(--radius-sm); margin-bottom: 5px; }
+.nav-item:hover, .nav-item.active { background: var(--primary); color: var(--dark) !important; }
+
+/* --- Theme Toggle Specific (Fixed Bug) --- */
+.theme-toggle-btn {
+    border-top: 1px solid var(--border-color);
+    margin-top: 20px;
+    padding-top: 20px;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    transition: var(--transition);
+}
+.theme-toggle-btn:hover { color: var(--primary); }
+
+/* --- Global UX: Utility Classes --- */
+.text-light { color: #f8fafc !important; }
+.text-muted-light { color: #94a3b8 !important; }
+::placeholder { color: #94a3b8 !important; }
+
+footer { background: #020617 !important; color: #fff !important; padding: 60px 10% 30px !important; }
+footer h4 { color: var(--primary) !important; margin-bottom: 25px; }
+footer li { color: #94a3b8 !important; transition: 0.2s; cursor: pointer; margin-bottom: 12px; }
+footer li:hover { color: var(--white) !important; padding-left: 5px; }

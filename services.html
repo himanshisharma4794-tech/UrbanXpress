@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | UrbanXpress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFB800;
+            --primary-hover: #E6A600;
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        /* Use Theme Tokens from shared-theme.css */
+        body { background-color: var(--bg-body) !important; color: var(--text-primary) !important; line-height: 1.6; padding-top: 100px; }
+        a { text-decoration: none; color: inherit; }
+
+        header {
+            background: var(--header-bg) !important;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(15px);
+        }
+
+        .logo { font-size: 24px; font-weight: 800; color: var(--text-primary) !important; }
+        .logo span { color: var(--primary); }
+
+        .btn { padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: var(--transition); border: none; }
+        .btn-primary { background: var(--primary); color: var(--dark); }
+
+        .service-list { padding: 50px 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+        
+        .service-item {
+            background: var(--card-bg) !important;
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+        }
+
+        .service-icon { font-size: 40px; margin-bottom: 20px; }
+        h2 { margin-bottom: 15px; color: var(--text-primary) !important; }
+        p { color: var(--text-secondary); margin-bottom: 20px; }
+
+        .footer { background: var(--dark-light); color: var(--white); padding: 40px 5%; text-align: center; margin-top: 100px; }
+    </style>
+
+    <link rel="stylesheet" href="shared-theme.css">
+    <script src="shared-theme.js"></script>
+</head>
+<body>
+    <header>
+        <a href="homepage.html" class="logo">Urban<span>Xpress</span></a>
+        <div>
+            <a href="homepage.html#widget" class="btn btn-primary">Book Now</a>
+        </div>
+    
+        <div id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer; font-size:18px; color:var(--text-main); margin-left:15px; display:inline-block;">
+            <i class="fas fa-moon"></i>
+        </div>
+</header>
+
+    <div style="text-align: center; margin-bottom: 40px; padding: 0 5%;">
+        <h1>Comprehensive <span style="color: var(--primary);">Logistics</span> Solutions</h1>
+        <p>One platform for all your urban movement needs.</p>
+    </div>
+
+    <div class="service-list">
+        <div class="service-item">
+            <div class="service-icon">🚕</div>
+            <h2>Ride Hailing</h2>
+            <p>From bike taxis to luxury cars, get a ride in minutes. We provide the fastest city commute solutions.</p>
+            <a href="ride-hailing.html" class="btn btn-primary">Learn More & Book</a>
+        </div>
+        <div class="service-item">
+            <div class="service-icon">🚚</div>
+            <h2>Express Logistics</h2>
+            <p>Send anything across the city instantly. Our verified partners handle everything from small packages to large cargo.</p>
+            <a href="logistics.html" class="btn btn-primary">Explore Logistics</a>
+        </div>
+        <div class="service-item">
+            <div class="service-icon">🏠</div>
+            <h2>Packers & Movers</h2>
+            <p>Moving your home or office? Our professional packing and relocation service is safe, secure, and stress-free.</p>
+            <a href="packers-movers.html" class="btn btn-primary">Get Moving Quote</a>
+        </div>
+        <div class="service-item">
+            <div class="service-icon">🛵</div>
+            <h2>Vehicle Rentals</h2>
+            <p>Rent a scooter or a car for as long as you want. Keyless entry, easy navigation, and multiple pickup hubs.</p>
+            <a href="rentals.html" class="btn btn-primary">Rent Now</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 UrbanXpress Inc. All rights reserved. | <a href="homepage.html" style="color:var(--primary);">Back to Home</a>
+    </div>
+</body>
+</html>

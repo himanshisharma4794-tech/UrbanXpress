@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout | UrbanXpress</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FFB800;
+            --radius: 16px;
+        }
+
+        /* Use Theme Tokens from shared-theme.css */
+        body { background-color: var(--bg-body) !important; color: var(--text-primary) !important; padding: 40px 5%; display: flex; justify-content: center; min-height: 100vh; }
+
+        .checkout-container { background: var(--card-bg) !important; width: 100%; max-width: 900px; border-radius: var(--radius); box-shadow: var(--card-shadow); display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; border: 1px solid var(--border-color); }
+
+        .order-summary { background: var(--bg-secondary) !important; padding: 40px; border-right: 1px solid var(--border-color); }
+        .payment-methods { padding: 40px; }
+
+        h2 { font-size: 24px; margin-bottom: 25px; }
+        .total-amount { font-size: 32px; font-weight: 800; color: var(--primary); margin: 20px 0; }
+
+        /* Payment Tabs */
+        .pay-tab { border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-bottom: 15px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: all 0.2s; background: var(--bg-secondary); }
+        .pay-tab:hover { border-color: var(--primary); background: var(--bg-body); }
+        .pay-tab.active { border-color: var(--primary); background: var(--bg-body); border-width: 2px; }
+        .pay-tab img { width: 30px; height: 30px; object-fit: contain; }
+
+        .pay-content { display: none; margin-top: 10px; padding: 15px; border-top: 1px solid var(--border-color); }
+        .pay-content.active { display: block; }
+
+        /* Form Controls */
+        input { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px; outline: none; background: var(--bg-body); color: var(--text-primary); }
+        .btn { width: 100%; padding: 15px; background: var(--primary); border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 16px; margin-top: 20px; }
+        .btn:hover { background: #e6a600; }
+
+        .upi-qr { width: 150px; height: 150px; background: var(--bg-body); margin: 0 auto 15px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-secondary); }
+
+        @media (max-width: 800px) {
+            .checkout-container { grid-template-columns: 1fr; }
+            .order-summary { border-right: none; border-bottom: 1px solid #eee; }
+        }
+    </style>
+
+    <link rel="stylesheet" href="shared-theme.css">
+    <script src="shared-theme.js"></script>
+</head>
+<body>
+    <div class="checkout-container">
+        <!-- Summary -->
+        <div class="order-summary">
+            <h2>Secure Payment</h2>
+            <p style="color:var(--text-gray);" id="order-id-display">Order #UX-7845-90</p>
+            <div class="total-amount" id="total-val">₹0.00</div>
+            
+            <div style="margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <p><strong>Merchant:</strong> UrbanXpress Inc.</p>
+                <p><strong>Item:</strong> Logistics Service (Standard)</p>
+                <p style="font-size: 12px; color: var(--success); margin-top: 10px;">✓ SSL Secured Connection</p>
+            </div>
+        </div>
+
+        <!-- Methods -->
+        <div class="payment-methods">
+            <h2>Payment Method</h2>
+            
+            <!-- UPI -->
+            <div class="pay-tab active" onclick="switchPay('upi')">
+                <span>📱 UPI / QR</span>
+                <span style="margin-left:auto; color:green;">Fastest</span>
+            </div>
+            <div id="content-upi" class="pay-content active">
+                <div class="upi-qr">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=UrbanXpressPayment" alt="UPI QR">
+                </div>
+                <p style="text-align:center; font-size:12px; color:var(--text-gray);">Scan QR with GPay, PhonePe, or Paytm</p>
+                <input type="text" placeholder="Enter UPI ID (e.g. user@okaxis)">
+            </div>
+
+            <!-- Card -->
+            <div class="pay-tab" onclick="switchPay('card')">
+                <span>💳 Debit / Credit Card</span>
+            </div>
+            <div id="content-card" class="pay-content">
+                <input type="text" placeholder="Card Number">
+                <div style="display:flex; gap:10px;">
+                    <input type="text" placeholder="MM/YY">
+                    <input type="text" placeholder="CVV">
+                </div>
+                <input type="text" placeholder="Name on Card">
+            </div>
+
+            <!-- Net Banking -->
+            <div class="pay-tab" onclick="switchPay('net')">
+                <span>🏦 Net Banking</span>
+            </div>
+            <div id="content-net" class="pay-content">
+                <select style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px;">
+                    <option>Select Your Bank</option>
+                    <option>State Bank of India</option>
+                    <option>HDFC Bank</option>
+                    <option>ICICI Bank</option>
+                    <option>Axis Bank</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="processPayment()">Complete Payment</button>
+            <p style="text-align:center; font-size:12px; color:var(--text-gray); margin-top:15px;">Your data is shared only for payment processing.</p>
+        </div>
+    </div>
+
+    <script>
+        // Load amount from URL
+        const params = new URLSearchParams(window.location.search);
+        const amount = params.get('amount') || "₹6,275";
+        const bookingId = params.get('id');
+        document.getElementById('total-val').innerText = amount;
+        if (bookingId) {
+            document.getElementById('order-id-display').innerText = 'Order #' + bookingId;
+        }
+
+        function switchPay(method) {
+            document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.pay-content').forEach(c => c.classList.remove('active'));
+            
+            event.currentTarget.classList.add('active');
+            document.getElementById('content-' + method).classList.add('active');
+        }
+
+        function processPayment() {
+            alert('Authenticating with Bank. Please wait...');
+            
+            setTimeout(() => {
+                const userEmail = localStorage.getItem('userEmail');
+
+                // 1. UPDATE userHistory (used by rides.html)
+                const history = JSON.parse(localStorage.getItem('userHistory') || '[]');
+                const foundIndex = history.findIndex(h => h.id === bookingId);
+                if (foundIndex !== -1) {
+                    history[foundIndex].status = 'Success';
+                    localStorage.setItem('userHistory', JSON.stringify(history));
+                }
+
+                // 2. UPDATE bookings_${email} (used by Dashboard and Recent Bookings)
+                if (userEmail) {
+                    const bookings = JSON.parse(localStorage.getItem(`bookings_${userEmail}`) || '[]');
+                    // Try exact match or relative match for generated IDs
+                    const bIndex = bookings.findIndex(b => b.id === bookingId || b.id.includes(bookingId) || bookingId.includes(b.id));
+                    if (bIndex !== -1) {
+                        bookings[bIndex].status = 'completed';
+                        localStorage.setItem(`bookings_${userEmail}`, JSON.stringify(bookings));
+                    }
+                }
+
+                alert('Success! Payment of ' + amount + ' received by UrbanXpress.');
+                window.location.href = 'dashboard.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
