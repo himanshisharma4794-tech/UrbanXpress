@@ -121,6 +121,20 @@
             document.getElementById('order-id-display').innerText = 'Order #' + bookingId;
         }
 
+        // Generate Dynamic QR Code for UPI
+        function updateQRCode() {
+            const numericAmount = amount.replace(/[^0-9.]/g, '');
+            const upiId = "urbanxpress@oksbi";
+            const merchantName = "UrbanXpress Inc";
+            const upiUri = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(merchantName)}&am=${numericAmount}&cu=INR&tn=${encodeURIComponent('Order ' + (bookingId || 'UX'))}`;
+            
+            const qrImg = document.querySelector('#content-upi img');
+            if (qrImg) {
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(upiUri)}`;
+            }
+        }
+        updateQRCode();
+
         function switchPay(method) {
             document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.pay-content').forEach(c => c.classList.remove('active'));
